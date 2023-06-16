@@ -3,7 +3,9 @@ import { useState,useRef,useEffect } from 'react';
 import Tesseract from 'tesseract.js';
 import './App.css';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import { MDBPopover, MDBPopoverBody, MDBPopoverHeader } from 'mdb-react-ui-kit';
 import {Configuration, OpenAIApi } from 'openai';
+import myGif from './loading_animation.gif';
 const configuration = new Configuration({
   apiKey: process.env.REACT_APP_OPEN_AI_Key,
 });
@@ -35,7 +37,8 @@ function App() {
         
         
       } else {
-        setImage(reader.result);
+        alert("Image files only");
+        return;
       }
     };
   }
@@ -71,10 +74,10 @@ function App() {
     };
     
 
-    //const response = await openai.createCompletion(object);
-    //console.log(response.data.choices[0].text);
-    //setResult(response.data.choices[0].text);
-    setResult('Hi i am chirag and i am testing this feature')
+    const response = await openai.createCompletion(object);
+    console.log(response.data.choices[0].text);
+    setResult(response.data.choices[0].text);
+    //setResult('Hi i am chirag and i am testing this feature')
     setShowTextArea(true);
     ref.current?.scrollIntoView({behavior: 'smooth'});
   }
@@ -88,6 +91,7 @@ function App() {
     <div className="container" style ={{height: "100vh"}}>
       <div className='row h-100'>
         <div className='col-md-5 mx-auto d-flex flex-column align-items-center'>
+        
           {!isLoading && <h1 className='mt-5 mb-4'>Image to Text: assignment helper</h1>}
           
           {/* form */}
@@ -106,6 +110,7 @@ function App() {
             isLoading && (
               <>
               <p className='text-center mt-5'>Converting :- {progress}%</p>
+              <img src={myGif} style={{ width: 120, height: 120 }} alt="my-gif" />
               </>
             )
           }
@@ -119,7 +124,12 @@ function App() {
               <input type="button" className='form-control btn btn-primary mt-4' value = "AI Solutions" onClick={doStuff}/> */}
               <div style={{display: 'flex', flexDirection: 'row'}}>
               <MDBBtn color='info' className='me-1 mt-4 mx-2' onClick={handleBack}> Back </MDBBtn>
-              <MDBBtn color='info' className='me-1 mt-4 mx-2' onClick={doStuff}> AI Solutions </MDBBtn>
+              <MDBPopover  btnClassName='me-1 mt-4 mx-2' color='info' onClick={doStuff} btnChildren='AI Solutions' dismiss>
+              <MDBPopoverHeader>⚠️ Warning</MDBPopoverHeader>
+              <MDBPopoverBody>Input one question at a time, You can edit in the text Box</MDBPopoverBody>
+              {/* <MDBBtn color='info' className='me-1 mt-4 mx-2' onClick={doStuff}> AI Solutions </MDBBtn> */}
+              </MDBPopover>
+             
               </div>
               {showTextArea && (
                 <div ref={ref}>

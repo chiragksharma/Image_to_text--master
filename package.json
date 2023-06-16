@@ -2,7 +2,6 @@
     "name": "tesseract_js",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://chiragksharma.github.io/Image_to_text-",
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.4.0",
         "@mui/icons-material": "^5.11.16",
@@ -18,7 +17,8 @@
         "react-image-crop": "^10.0.9",
         "react-scripts": "^5.0.1",
         "tesseract.js": "^4.0.3",
-        "web-vitals": "^2.1.4"
+        "web-vitals": "^2.1.4",
+        "yarn": "^1.22.19"
     },
     "scripts": {
         "predeploy": "npm run build",
